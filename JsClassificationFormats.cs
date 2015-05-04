@@ -44,7 +44,7 @@ namespace HtmlSyntaxHighlighter
     [ClassificationType(ClassificationTypeNames = FormatNames.Delimiter)]
     [Name(FormatNames.Delimiter)]
     [UserVisible(true)]
-    [Order(Before = Priority.Default)]
+    [Order(Before = Priority.High)]
     internal sealed class HtmlDelimiterFormatDefinition : ClassificationFormatDefinition
     {
         public HtmlDelimiterFormatDefinition()
@@ -58,7 +58,7 @@ namespace HtmlSyntaxHighlighter
     [ClassificationType(ClassificationTypeNames = FormatNames.Element)]
     [Name(FormatNames.Element)]
     [UserVisible(true)]
-    [Order(Before = Priority.Default)]
+    [Order(Before = Priority.High)]
     internal sealed class HtmlElementFormatDefinition : ClassificationFormatDefinition
     {
         public HtmlElementFormatDefinition()
@@ -72,7 +72,7 @@ namespace HtmlSyntaxHighlighter
     [ClassificationType(ClassificationTypeNames = FormatNames.AttributeName)]
     [Name(FormatNames.AttributeName)]
     [UserVisible(true)]
-    [Order(Before = Priority.Default)]
+    [Order(Before = Priority.High)]
     internal sealed class HtmlAttributeNameFormatDefinition : ClassificationFormatDefinition
     {
         public HtmlAttributeNameFormatDefinition()
@@ -86,7 +86,7 @@ namespace HtmlSyntaxHighlighter
     [ClassificationType(ClassificationTypeNames = FormatNames.Quote)]
     [Name(FormatNames.Quote)]
     [UserVisible(true)]
-    [Order(Before = Priority.Default)]
+    [Order(Before = Priority.High)]
     internal sealed class HtmlQuoteFormatDefinition : ClassificationFormatDefinition
     {
         public HtmlQuoteFormatDefinition()
@@ -100,7 +100,7 @@ namespace HtmlSyntaxHighlighter
     [ClassificationType(ClassificationTypeNames = FormatNames.AttributeValue)]
     [Name(FormatNames.AttributeValue)]
     [UserVisible(true)]
-    [Order(Before = Priority.Default)]
+    [Order(Before = Priority.High)]
     internal sealed class HtmlAttributeValueFormatDefinition : ClassificationFormatDefinition
     {
         public HtmlAttributeValueFormatDefinition()

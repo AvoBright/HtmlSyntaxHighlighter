@@ -2,7 +2,7 @@
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
     <Identity Id="HtmlSyntaxHighlighter..41f59521-e228-4b53-852b-a1166826e24a" Version="1.0" Language="en-US" Publisher="Alan Ng" />
-    <DisplayName>HtmlSyntaxHighlighter</DisplayName>
+    <DisplayName>Html Syntax Highlighter for JS String</DisplayName>
     <Description xml:space="preserve">This extension does syntax highlighting to Html markup in Javascript string literal.</Description>
     <License>LICENSE.txt</License>
   </Metadata>
