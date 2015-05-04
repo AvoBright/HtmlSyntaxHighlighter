@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlSyntaxHighlighter", "HtmlSyntaxHighlighter.csproj", "{7294D636-833F-4ED2-A74B-70E5C235AE0E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7294D636-833F-4ED2-A74B-70E5C235AE0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7294D636-833F-4ED2-A74B-70E5C235AE0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7294D636-833F-4ED2-A74B-70E5C235AE0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7294D636-833F-4ED2-A74B-70E5C235AE0E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
