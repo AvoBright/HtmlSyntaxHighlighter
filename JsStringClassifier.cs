@@ -1,21 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Windows.Media;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Utilities;
 using System.Diagnostics;
+using System.ComponentModel;
 
-namespace HtmlSyntaxHighlighter
+namespace AvoBright.HtmlSyntaxHighlighter
 {
 
     #region Provider definition
 
     [Export(typeof(IClassifierProvider))]
-    [ContentType("JavaScript")]
+    [ContentType("JavaScript")] // VS2013 and 2012
+    [ContentType("JScript")] // VS2010
     internal class HtmlClassifierProvider : IClassifierProvider
     {
+
         [Import]
         internal IClassificationTypeRegistryService ClassificationTypeRegistry = null;
 
@@ -34,6 +38,7 @@ namespace HtmlSyntaxHighlighter
             try
             {
                 createdClassifier = true;
+
                 return buffer.Properties.GetOrCreateSingletonProperty<HtmlClassifier>(delegate
                 {
                     return new HtmlClassifier(ClassificationTypeRegistry, ClassifierAggregator.GetClassifier(buffer));
@@ -57,6 +62,7 @@ namespace HtmlSyntaxHighlighter
         IClassificationType htmlAttributeNameType;
         IClassificationType htmlQuoteType;
         IClassificationType htmlAttributeValueType;
+        IClassificationType htmlTextType;
 
         IClassifier classifier;
 
@@ -67,6 +73,7 @@ namespace HtmlSyntaxHighlighter
             htmlAttributeNameType = registry.GetClassificationType(FormatNames.AttributeName);
             htmlQuoteType = registry.GetClassificationType(FormatNames.Quote);
             htmlAttributeValueType = registry.GetClassificationType(FormatNames.AttributeValue);
+            htmlTextType = registry.GetClassificationType(FormatNames.Text);
 
             this.classifier = classifier;
         }
@@ -78,11 +85,12 @@ namespace HtmlSyntaxHighlighter
 
             foreach (ClassificationSpan cs in classifier.GetClassificationSpans(span))
 	        {
-	            string cs_class = cs.ClassificationType.Classification.ToLower();
+	            string csClass = cs.ClassificationType.Classification.ToLower();
 	
-	            /* Only apply our rules if we found a string literal */
-	            if (cs_class == "string")
-	            {
+	            // Only apply our rules if we found a string literal
+                // VS2013 and 2012 use "string", VS2010 uses "script string"
+                if (csClass == "string" || csClass == "script string")
+                {
                     if (cs.Span.Length > 2)
                     {
                         var sspan = new SnapshotSpan(cs.Span.Start.Add(1), cs.Span.End.Subtract(1)); // exclude quote
@@ -93,10 +101,21 @@ namespace HtmlSyntaxHighlighter
                         {
                             result.AddRange(classification);
                         }
+                        else
+                        {
+                            result.Add(cs);
+                        }
                     }
-	            }
+                    else
+                    {
+                        result.Add(cs);
+                    }
+                }
+                else
+                {
+                    result.Add(cs);
+                }
 
-                result.Add(cs);
 	        }
 
             return result;
@@ -334,6 +353,11 @@ namespace HtmlSyntaxHighlighter
                                 state = State.AfterOpenTagSlash;
                                 result.Add(new ClassificationSpan(new SnapshotSpan(span.Start + currentCharIndex, 1), htmlDelimiterType));
                             }
+                            else if (c == '>') 
+                            {
+                                state = State.AfterCloseAngleBracket;
+                                result.Add(new ClassificationSpan(new SnapshotSpan(span.Start + currentCharIndex, 1), htmlDelimiterType));
+                            }
                             else
                             {
                                 return null;
@@ -454,7 +478,7 @@ namespace HtmlSyntaxHighlighter
                             }
                             else
                             {
-                                continuousMark = null;
+                                continuousMark = currentCharIndex;
                                 state = State.InsideElement;
                             }
                             break;
@@ -464,9 +488,22 @@ namespace HtmlSyntaxHighlighter
                             if (c == '<')
                             {
                                 state = State.AfterOpenAngleBracket;
-                                continuousMark = null;
                                 result.Add(new ClassificationSpan(new SnapshotSpan(span.Start + currentCharIndex, 1), htmlDelimiterType));
+
+                                if (continuousMark.HasValue)
+                                {
+                                    int start = continuousMark.Value;
+                                    int length = currentCharIndex - start;
+                                    continuousMark = null;
+
+                                    result.Add(new ClassificationSpan(new SnapshotSpan(span.Start + start, length), htmlTextType));
+                                }
                             }
+                            else
+                            {
+                                
+                            }
+
                             break;
                         }
                     case State.AfterCloseTagSlash:
@@ -530,6 +567,12 @@ namespace HtmlSyntaxHighlighter
                         int start = continuousMark.Value;
                         int length = literal.Length - start;
                         result.Add(new ClassificationSpan(new SnapshotSpan(span.Start + start, length), htmlAttributeValueType));
+                    }
+                    else if (state == State.InsideElement)
+                    {
+                        int start = continuousMark.Value;
+                        int length = literal.Length - start;
+                        result.Add(new ClassificationSpan(new SnapshotSpan(span.Start + start, length), htmlTextType));
                     }
                 }
             }

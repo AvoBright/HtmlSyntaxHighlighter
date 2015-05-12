@@ -2,8 +2,9 @@
 using System.Windows.Media;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Utilities;
+using System.Windows;
 
-namespace HtmlSyntaxHighlighter
+namespace AvoBright.HtmlSyntaxHighlighter
 {
     #region Format definition
 
@@ -14,6 +15,7 @@ namespace HtmlSyntaxHighlighter
         public const string AttributeName = "HtmlAttributeName";
         public const string Quote = "HtmlQuote";
         public const string AttributeValue = "HtmlAttributeValue";
+        public const string Text = "HtmlText";
     }
 
     internal static class ClassificationTypeDefinitions
@@ -37,19 +39,25 @@ namespace HtmlSyntaxHighlighter
         [Export(typeof(ClassificationTypeDefinition))]
         [Name(FormatNames.AttributeValue)]
         internal static ClassificationTypeDefinition AttributeValue = null;
+
+        [Export(typeof(ClassificationTypeDefinition))]
+        [Name(FormatNames.Text)]
+        internal static ClassificationTypeDefinition Text = null;
     }
 
+    // When JS file is opened, the format definitions are created
+    // Closing and reopen JS file, doesn't recreate the definitions
 
     [Export(typeof(EditorFormatDefinition))]
     [ClassificationType(ClassificationTypeNames = FormatNames.Delimiter)]
     [Name(FormatNames.Delimiter)]
     [UserVisible(true)]
-    [Order(Before = Priority.High)]
+    [Order(After = Priority.High)]
     internal sealed class HtmlDelimiterFormatDefinition : ClassificationFormatDefinition
     {
         public HtmlDelimiterFormatDefinition()
         {
-            this.DisplayName = "Html Delimiter Characters";
+            this.DisplayName = "HTML Delimiter Character (JS String Literal)";
             this.ForegroundColor = Colors.Blue;
         }
     }
@@ -58,13 +66,14 @@ namespace HtmlSyntaxHighlighter
     [ClassificationType(ClassificationTypeNames = FormatNames.Element)]
     [Name(FormatNames.Element)]
     [UserVisible(true)]
-    [Order(Before = Priority.High)]
+    [Order(After = Priority.High)]
     internal sealed class HtmlElementFormatDefinition : ClassificationFormatDefinition
     {
+
         public HtmlElementFormatDefinition()
         {
-            this.DisplayName = "Html Elements";
-            this.ForegroundColor = Color.FromRgb(163, 21, 21);
+            this.DisplayName = "HTML Element (JS String Literal)";
+            this.ForegroundColor = Color.FromRgb(128, 0, 0);
         }
     }
 
@@ -72,12 +81,12 @@ namespace HtmlSyntaxHighlighter
     [ClassificationType(ClassificationTypeNames = FormatNames.AttributeName)]
     [Name(FormatNames.AttributeName)]
     [UserVisible(true)]
-    [Order(Before = Priority.High)]
+    [Order(After = Priority.High)] // VS2013 only needs Before = Priority.Default, VS2012 needs Before = Priority.High, VS2010 needs After = Priority.High
     internal sealed class HtmlAttributeNameFormatDefinition : ClassificationFormatDefinition
     {
         public HtmlAttributeNameFormatDefinition()
         {
-            this.DisplayName = "Html Attribute Names";
+            this.DisplayName = "HTML Attribute Name (JS String Literal)";
             this.ForegroundColor = Colors.Red;
         }
     }
@@ -86,12 +95,12 @@ namespace HtmlSyntaxHighlighter
     [ClassificationType(ClassificationTypeNames = FormatNames.Quote)]
     [Name(FormatNames.Quote)]
     [UserVisible(true)]
-    [Order(Before = Priority.High)]
+    [Order(After = Priority.High)]
     internal sealed class HtmlQuoteFormatDefinition : ClassificationFormatDefinition
     {
         public HtmlQuoteFormatDefinition()
         {
-            this.DisplayName = "Html Quotes";
+            this.DisplayName = "HTML Quote (JS String Literal)";
             this.ForegroundColor = Colors.Black;
         }
     }
@@ -100,13 +109,27 @@ namespace HtmlSyntaxHighlighter
     [ClassificationType(ClassificationTypeNames = FormatNames.AttributeValue)]
     [Name(FormatNames.AttributeValue)]
     [UserVisible(true)]
-    [Order(Before = Priority.High)]
+    [Order(After = Priority.High)]
     internal sealed class HtmlAttributeValueFormatDefinition : ClassificationFormatDefinition
     {
         public HtmlAttributeValueFormatDefinition()
         {
-            this.DisplayName = "Html Attribute Values";
+            this.DisplayName = "HTML Attribute Value (JS String Literal)";
             this.ForegroundColor = Colors.Blue;
+        }
+    }
+
+    [Export(typeof(EditorFormatDefinition))]
+    [ClassificationType(ClassificationTypeNames = FormatNames.Text)]
+    [Name(FormatNames.Text)]
+    [UserVisible(true)]
+    [Order(After = Priority.High)]
+    internal sealed class HtmlTextFormatDefinition : ClassificationFormatDefinition
+    {
+        public HtmlTextFormatDefinition()
+        {
+            this.DisplayName = "HTML Text (JS String Literal)";
+            this.ForegroundColor = Colors.Black;
         }
     }
 

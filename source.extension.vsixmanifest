@@ -1,18 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
-  <Metadata>
-    <Identity Id="HtmlSyntaxHighlighter..41f59521-e228-4b53-852b-a1166826e24a" Version="1.0" Language="en-US" Publisher="Alan Ng" />
-    <DisplayName>Html Syntax Highlighter for JS String</DisplayName>
-    <Description xml:space="preserve">This extension does syntax highlighting to Html markup in Javascript string literal.</Description>
+<Vsix xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="1.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2010">
+  <Identifier Id="HtmlSyntaxHighlighter..24286ded-f030-46e3-8a89-2aaf0697c42b">
+    <Name>Html Syntax Highlighter for JS String</Name>
+    <Author>AvoBright</Author>
+    <Version>1.1</Version>
+    <Description xml:space="preserve">A Visual Studio extension that does syntax highlighting to Html in Javascript string literal.</Description>
+    <Locale>1033</Locale>
+    <MoreInfoUrl>https://github.com/AvoBright/HtmlSyntaxHighlighter</MoreInfoUrl>
     <License>LICENSE.txt</License>
-  </Metadata>
-  <Installation>
-    <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[11.0,13.0)" />
-  </Installation>
-  <Dependencies>
-    <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="4.5" />
-  </Dependencies>
-  <Assets>
-    <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%|" />
-  </Assets>
-</PackageManifest>
+    <Icon>icon-small.png</Icon>
+    <PreviewImage>icon.png</PreviewImage>
+    <SupportedProducts>
+      <VisualStudio Version="10.0">
+        <Edition>Pro</Edition>
+      </VisualStudio>
+      <VisualStudio Version="11.0">
+        <Edition>Pro</Edition>
+      </VisualStudio>
+      <VisualStudio Version="12.0">
+        <Edition>Pro</Edition>
+      </VisualStudio>
+    </SupportedProducts>
+    <SupportedFrameworkRuntimeEdition MinVersion="4.0" MaxVersion="4.0" />
+  </Identifier>
+  <References />
+  <Content>
+    <MefComponent>|%CurrentProject%|</MefComponent>
+  </Content>
+</Vsix>
